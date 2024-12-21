@@ -1,6 +1,8 @@
 package com.arpan.ecs_app.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.autoconfigure.health.HealthEndpointProperties;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.actuate.health.Status;
@@ -15,6 +17,7 @@ import java.util.Map;
 public class ApiController {
     private final HealthEndpoint healthEndpoint;
     private final HealthEndpointProperties healthEndpointProperties;
+    private final Logger log = LoggerFactory.getLogger(ApiController.class);
 
     public ApiController(HealthEndpoint healthEndpoint, HealthEndpointProperties healthEndpointProperties) {
         this.healthEndpoint = healthEndpoint;
@@ -23,11 +26,13 @@ public class ApiController {
 
     @GetMapping("/api")
     public String sayHello() {
+        log.info("inside sayHello........");
         return "Hello World";
     }
 
     @GetMapping("/ping")
-    public ResponseEntity<Map<String, String>> ping(HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> ping() {
+        log.info("inside ping........");
         Status healthStatus = healthEndpoint.health().getStatus();
         String description = healthStatus.getCode();
         String httpCode = healthEndpointProperties.getStatus().getHttpMapping().get(healthStatus.getCode()).toString();
