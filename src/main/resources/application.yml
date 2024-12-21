@@ -18,4 +18,4 @@ management:
           UP: 200
 logging:
   file:
-    name: ../myapp.log
+    name: ./myapp.log
